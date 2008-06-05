@@ -50,7 +50,7 @@ rm -f configure
 libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --add-missing --copy --foreign; autoconf
 export APXS="%{_sbindir}/apxs"
 
-%configure2_5x
+%configure2_5x --localstatedir=/var/lib
 
 %make
 
