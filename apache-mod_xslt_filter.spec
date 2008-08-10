@@ -6,8 +6,8 @@
 
 Summary:	Performs XSL transformation on the fly
 Name:		apache-%{mod_name}
-Version:	1.5
-Release:	%mkrel 3
+Version:	1.5.1
+Release:	%mkrel 1
 Group:		System/Servers
 License:	Apache License
 URL:		http://sourceforge.net/projects/xslt-filter/
@@ -83,4 +83,3 @@ rm -rf %{buildroot}
 %doc README
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/modules.d/%{mod_conf}
 %attr(0755,root,root) %{_libdir}/apache-extramodules/%{mod_so}
-
