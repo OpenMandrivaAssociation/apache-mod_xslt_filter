@@ -6,7 +6,7 @@
 
 Summary:	Performs XSL transformation on the fly
 Name:		apache-%{mod_name}
-Version:	1.5.1
+Version:	1.5.2
 Release:	%mkrel 1
 Group:		System/Servers
 License:	Apache License
@@ -14,6 +14,7 @@ URL:		http://sourceforge.net/projects/xslt-filter/
 Source0:	xslt_filter-%{version}.tar.gz
 Source1:	%{mod_conf}
 Patch0:		xslt_filter-correct_naming_fix.diff
+Patch1:		xslt_filter-1.5.2-format_not_a_string_literal_and_no_format_arguments.diff
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre):  apache-conf >= %{apache_version}
@@ -38,6 +39,7 @@ PHP applications.
 
 %setup -q -n xslt_filter-%{version}
 %patch0 -p1
+%patch1 -p0
 
 mv xslt_filter.c %{mod_name}.c
 
@@ -48,7 +50,7 @@ find -type f -exec dos2unix -U {} \;
 %build
 rm -f configure
 libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --add-missing --copy --foreign; autoconf
-export APXS="%{_sbindir}/apxs"
+export APXS2="%{_sbindir}/apxs"
 
 %configure2_5x --localstatedir=/var/lib
 
