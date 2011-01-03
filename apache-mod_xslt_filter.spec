@@ -7,7 +7,7 @@
 Summary:	Performs XSL transformation on the fly
 Name:		apache-%{mod_name}
 Version:	1.5.2
-Release:	%mkrel 4
+Release:	%mkrel 5
 Group:		System/Servers
 License:	Apache License
 URL:		http://sourceforge.net/projects/xslt-filter/
@@ -22,7 +22,7 @@ Requires(pre):  apache >= %{apache_version}
 Requires:	apache-conf >= %{apache_version}
 Requires:	apache >= %{apache_version}
 BuildRequires:	apache-devel >= %{apache_version}
-BuildRequires:	automake1.7
+BuildRequires:	automake
 BuildRequires:	dos2unix
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 2.6.30
@@ -49,7 +49,7 @@ find -type f -exec dos2unix -U {} \;
 
 %build
 rm -f configure
-libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --add-missing --copy --foreign; autoconf
+libtoolize --copy --force; aclocal; autoconf; automake --add-missing --copy --foreign; autoconf
 export APXS2="%{_sbindir}/apxs"
 
 %configure2_5x --localstatedir=/var/lib
