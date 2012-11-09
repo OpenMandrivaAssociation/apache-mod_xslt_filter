@@ -1,0 +1,71 @@
+diff -Naurp xslt_filter-1.5.1/Makefile.am xslt_filter-1.5.1.oden/Makefile.am
+--- xslt_filter-1.5.1/Makefile.am	2008-04-22 22:42:15.000000000 +0200
++++ xslt_filter-1.5.1.oden/Makefile.am	2008-08-10 16:52:57.000000000 +0200
+@@ -1,16 +1,16 @@
+ AUTOMAKE_OPTIONS = foreign
+ SUBDIRS = .
+ noinst_HEADERS = xslt_filter.h
+-SOURCES = xslt_filter.c
++SOURCES = mod_xslt_filter.c
+ EXTRA_DIST = README
+ nodist_FILES = TODO
+ CLEANFILES = 
+ package: all-recursive
+ 
+-all: xslt_filter
++all: mod_xslt_filter
+ 
+-xslt_filter:
+-	$(APXS) -c $(XSLT_INC) $(XSLT_LIB) xslt_filter.c
++mod_xslt_filter:
++	$(APXS) -c $(XSLT_INC) $(XSLT_LIB) mod_xslt_filter.c
+ 
+-install: xslt_filter
+-	$(APXS) -n xslt_filter -i .libs/xslt_filter.so
++install: mod_xslt_filter
++	$(APXS) -n xslt_filter_module -i .libs/mod_xslt_filter.so
+diff -Naurp xslt_filter-1.5.1/README xslt_filter-1.5.1.oden/README
+--- xslt_filter-1.5.1/README	2008-06-11 23:24:28.000000000 +0200
++++ xslt_filter-1.5.1.oden/README	2008-08-10 16:52:57.000000000 +0200
+@@ -30,9 +30,9 @@ Run the make install command.
+ Restart your Apache2 server.
+ 
+ ------------------------------------------------------------------------------
+-Edit your httpd.conf file and add the following section to enable xslt_filter module.
++Edit your httpd.conf file and add the following section to enable mod_xslt_filter module.
+ 
+-LoadModule xslt_filter  modules/xslt_filter.so
++LoadModule xslt_filter_module  modules/mod_xslt_filter.so
+ 
+ AddType         text/xsl .xsl
+ AddType         text/xml .xml
+diff -Naurp xslt_filter-1.5.1/xslt_filter.c xslt_filter-1.5.1.oden/xslt_filter.c
+--- xslt_filter-1.5.1/xslt_filter.c	2008-06-11 23:13:17.000000000 +0200
++++ xslt_filter-1.5.1.oden/xslt_filter.c	2008-08-10 16:53:58.000000000 +0200
+@@ -43,7 +43,7 @@
+ #include "xslt_filter.h"
+ 
+ /* --------------------- Filter config --------------------- */
+-module xslt_filter;
++module xslt_filter_module;
+ 
+ typedef struct {
+ 	apr_pool_t *pool;
+@@ -185,7 +185,7 @@ xslt_filter_ctx(ap_filter_t *f, apr_buck
+ 	int EOS=0;
+ 	int DBG=0;
+ 
+-	config = (xslt_dir_config *)ap_get_module_config(f->r->per_dir_config, &xslt_filter);
++	config = (xslt_dir_config *)ap_get_module_config(f->r->per_dir_config, &xslt_filter_module);
+ 	if (config->debug) DBG=config->debug;
+ 
+ 	/* Skip dummy work 1 */
+@@ -325,7 +325,7 @@ xslt_filter_hooks(apr_pool_t *p) {
+ 	ap_register_output_filter("xslt_filter", xslt_filter_ctx, NULL, AP_FTYPE_RESOURCE);
+ }
+ 
+-module AP_MODULE_DECLARE_DATA xslt_filter = {
++module AP_MODULE_DECLARE_DATA xslt_filter_module = {
+ 	STANDARD20_MODULE_STUFF,
+ 	create_dir_config,
+ 	merge_dir_config,

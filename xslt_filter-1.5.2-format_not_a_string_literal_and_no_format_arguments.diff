@@ -1,0 +1,10 @@
+--- xslt_filter.h	2008-02-09 02:28:41.000000000 +0100
++++ xslt_filter.h.oden	2009-01-07 11:15:39.000000000 +0100
+@@ -3,6 +3,6 @@ void xslt_error(void *ctx, const char *m
+ 	va_list args;
+ 	ap_filter_t *filter=(ap_filter_t*)ctx;
+ 	va_start(args,msg);
+-	ap_log_rerror(APLOG_MARK,APLOG_ERR, 0, filter->r, apr_pvsprintf(filter->r->pool,msg,args));
++	ap_log_rerror(APLOG_MARK,APLOG_ERR, 0, filter->r, "%s", apr_pvsprintf(filter->r->pool,msg,args));
+ 	va_end(args);
+ }
