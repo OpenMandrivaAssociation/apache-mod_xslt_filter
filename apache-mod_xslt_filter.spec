@@ -7,7 +7,7 @@
 Summary:	Performs XSL transformation on the fly
 Name:		apache-%{mod_name}
 Version:	1.5.2
-Release:	%mkrel 7
+Release:	7
 Group:		System/Servers
 License:	Apache License
 URL:		http://sourceforge.net/projects/xslt-filter/
@@ -27,7 +27,6 @@ BuildRequires:	dos2unix
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 2.6.30
 BuildRequires:	libxslt-devel >= 1.1.20
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 XSLT Filter is an Apache2 loadable module which performs XSL transformation on
@@ -50,14 +49,13 @@ find -type f -exec dos2unix {} \;
 %build
 rm -f configure
 libtoolize --copy --force; aclocal; autoconf; automake --add-missing --copy --foreign; autoconf
-export APXS2="%{_sbindir}/apxs"
+export APXS2="%{_bindir}/apxs"
 
 %configure2_5x --localstatedir=/var/lib
 
 %make
 
 %install
-rm -rf %{buildroot}
 
 install -d %{buildroot}%{_libdir}/apache-extramodules
 install -d %{buildroot}%{_sysconfdir}/httpd/modules.d
@@ -78,10 +76,61 @@ if [ "$1" = "0" ]; then
 fi
 
 %clean
-rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
 %doc README
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/modules.d/%{mod_conf}
 %attr(0755,root,root) %{_libdir}/apache-extramodules/%{mod_so}
+
+
+%changelog
+* Sat Feb 11 2012 Oden Eriksson <oeriksson@mandriva.com> 1.5.2-7mdv2012.0
++ Revision: 773243
+- rebuild
+
+* Tue May 24 2011 Oden Eriksson <oeriksson@mandriva.com> 1.5.2-6
++ Revision: 678449
+- mass rebuild
+
+* Mon Jan 03 2011 Oden Eriksson <oeriksson@mandriva.com> 1.5.2-5mdv2011.0
++ Revision: 627741
+- don't force the usage of automake1.7
+
+* Sun Oct 24 2010 Oden Eriksson <oeriksson@mandriva.com> 1.5.2-4mdv2011.0
++ Revision: 588110
+- rebuild
+
+* Mon Mar 08 2010 Oden Eriksson <oeriksson@mandriva.com> 1.5.2-3mdv2010.1
++ Revision: 516284
+- rebuilt for apache-2.2.15
+
+* Sat Aug 01 2009 Oden Eriksson <oeriksson@mandriva.com> 1.5.2-2mdv2010.0
++ Revision: 406691
+- rebuild
+
+* Wed Jan 07 2009 Oden Eriksson <oeriksson@mandriva.com> 1.5.2-1mdv2009.1
++ Revision: 326518
+- 1.5.2
+- fix build with -Wformat-security
+
+* Sun Aug 10 2008 Oden Eriksson <oeriksson@mandriva.com> 1.5.1-1mdv2009.0
++ Revision: 270293
+- 1.5.1
+- rediffed P0
+
+* Mon Jul 14 2008 Oden Eriksson <oeriksson@mandriva.com> 1.5-3mdv2009.0
++ Revision: 235138
+- rebuild
+
+* Thu Jun 05 2008 Oden Eriksson <oeriksson@mandriva.com> 1.5-2mdv2009.0
++ Revision: 215681
+- fix rebuild
+- hard code %%{_localstatedir}/lib to ease backports
+
+* Sun May 18 2008 Oden Eriksson <oeriksson@mandriva.com> 1.5-1mdv2009.0
++ Revision: 208640
+- import apache-mod_xslt_filter
+
+
+* Sun May 18 2008 Oden Eriksson <oeriksson@mandriva.com> 1.5-1mdv2009.0
+- initial Mandriva package
