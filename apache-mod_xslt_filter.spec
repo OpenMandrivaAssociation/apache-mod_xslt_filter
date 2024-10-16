@@ -10,7 +10,7 @@ Version:	1.5.2
 Release:	8
 Group:		System/Servers
 License:	Apache License
-URL:		http://sourceforge.net/projects/xslt-filter/
+URL:		https://sourceforge.net/projects/xslt-filter/
 Source0:	xslt_filter-%{version}.tar.gz
 Source1:	%{mod_conf}
 Patch0:		xslt_filter-correct_naming_fix.diff
