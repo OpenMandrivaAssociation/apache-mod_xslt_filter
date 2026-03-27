@@ -7,7 +7,7 @@
 Summary:	Performs XSL transformation on the fly
 Name:		apache-%{mod_name}
 Version:	1.5.2
-Release:	8
+Release:	9
 Group:		System/Servers
 License:	Apache License
 URL:		https://sourceforge.net/projects/xslt-filter/
