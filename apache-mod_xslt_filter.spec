@@ -22,6 +22,7 @@ Requires(pre):  apache >= %{apache_version}
 Requires:	apache-conf >= %{apache_version}
 Requires:	apache >= %{apache_version}
 BuildRequires:	autoconf
+BuildRequires:	make
 BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	apache-devel >= %{apache_version}
@@ -40,8 +41,8 @@ PHP applications.
 %prep
 
 %setup -q -n xslt_filter-%{version}
-%patch0 -p1
-%patch1 -p0
+%patch 0 -p1
+%patch 1 -p0
 
 mv xslt_filter.c %{mod_name}.c
 
