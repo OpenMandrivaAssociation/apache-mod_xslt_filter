@@ -46,6 +46,10 @@ PHP applications.
 
 mv xslt_filter.c %{mod_name}.c
 
+# libxml2 2.15 made the SAX1 default handler const. SAX2 parses
+# do not consult it, so dropping the cdataBlock assignment is enough.
+sed -i '/xmlDefaultSAXHandler/d' %{mod_name}.c
+
 cp %{SOURCE1} %{mod_conf}
 
 find -type f -exec dos2unix {} \;
