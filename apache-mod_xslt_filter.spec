@@ -29,7 +29,7 @@ BuildRequires:	apache-devel >= %{apache_version}
 BuildRequires:	automake
 BuildRequires:	dos2unix
 BuildRequires:	libtool
-BuildRequires:	libxml2-devel >= 2.6.30
+BuildRequires:	pkgconfig(libxml-2.0) >= 2.6.30
 BuildRequires:	libxslt-devel >= 1.1.20
 
 %description
@@ -78,8 +78,6 @@ if [ "$1" = "0" ]; then
         %{_initrddir}/httpd restart 1>&2
     fi
 fi
-
-%clean
 
 %files
 %doc README
