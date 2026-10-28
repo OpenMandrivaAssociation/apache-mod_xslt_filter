@@ -30,7 +30,7 @@ BuildRequires:	automake
 BuildRequires:	dos2unix
 BuildRequires:	libtool
 BuildRequires:	pkgconfig(libxml-2.0) >= 2.6.30
-BuildRequires:	libxslt-devel >= 1.1.20
+BuildRequires:	pkgconfig(libxslt) >= 1.1.20
 
 %description
 XSLT Filter is an Apache2 loadable module which performs XSL transformation on
@@ -51,6 +51,22 @@ cp %{SOURCE1} %{mod_conf}
 find -type f -exec dos2unix {} \;
 
 %build
+# xslt-config computes its prefix as /usr/bin/.. and then omits the
+# libxml2 include directory. Ask pkg-config instead.
+mkdir -p xslt-wrap
+cat > xslt-wrap/xslt-config << 'EOF'
+#!/bin/sh
+out=
+for arg in "$@"; do
+	case "$arg" in
+	--version) out="$out --modversion" ;;
+	--cflags|--libs) out="$out $arg" ;;
+	esac
+done
+exec pkg-config libxslt $out
+EOF
+chmod 755 xslt-wrap/xslt-config
+export PATH="$PWD/xslt-wrap:$PATH"
 rm -f configure
 libtoolize --copy --force; aclocal; autoconf; automake --add-missing --copy --foreign; autoconf
 export APXS2="%{_bindir}/apxs"
